@@ -61,7 +61,23 @@ void loop() {
   }
 
   //main code here
-  
+  String request = ReadIncomingRequest();
+  request.remove(0, 5);
+  request.remove(request.length() - 9, 9);
+  Serial.println("Incoming request: " + request);
+  if (request == "clear") {
+    clearCube();
+  }
+  else if (request == "light") {
+    lightCube();
+  }
+  else if(request.length() == 1){
+    lightLayer(request.toInt());
+  }
+  else if(request.length() == 3){
+    setVoxel((int)request[0], (int)request[1], (int)request[2]);
+  }
+
   giveResponse();
   renderCube();
 }
@@ -97,6 +113,15 @@ void lightCube() {
   }
 }
 
+void lightLayer(int layer){
+  clearCube();
+  for (int i = 0; i < 8; i++){
+    for (int j = 0; j < 8; j++){
+      setVoxel(i, layer, j);
+    }
+  }
+}
+
 void clearCube() {
   for (uint8_t i = 0; i < 8; i++) {
     for (uint8_t j = 0; j < 8; j++) {
@@ -104,7 +129,7 @@ void clearCube() {
     }
   }
 }
-  
+
 void giveResponse() {
   String html = "Ok";
   client.println("HTTP/1.1 200 OK");

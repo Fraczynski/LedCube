@@ -3,7 +3,25 @@
 
 //cube
 uint8_t cube[8][8];
-bool loading;
+uint8_t i = 0, j = 0, k = 0;
+bool loading = false;
+uint8_t currentEffect;
+uint16_t timer;
+
+//frame break times
+const int TEST_LEDS_TIME = 500;
+const int TEST_LAYERS_TIME = 500;
+
+const int TOTAL = 1;
+
+//static effects
+const int STATIC_EFFECT = -10;
+const int LIGHT = -1;
+const int CLEAR = -2;
+//dynamic effects
+const int TEST_LEDS = -3;
+const int TEST_LAYERS = -4;
+//const int RAIN = 0;
 
 //server
 String  ClientRequest;
@@ -12,20 +30,12 @@ IPAddress gateway642_10(192, 168, 1, 1);
 IPAddress subnet642_10(255, 255, 255, 0);
 WiFiServer server(80);
 WiFiClient client;
-String myresultat;
-
-String ReadIncomingRequest() {
-  while (client.available()) {
-    ClientRequest = (client.readStringUntil('\r'));
-    if ((ClientRequest.indexOf("HTTP/1.1") > 0) && (ClientRequest.indexOf("/favicon.ico") < 0)) {
-      myresultat = ClientRequest;
-    }
-  }
-  return myresultat;
-}
+String request;
 
 void setup() {
   loading = true;
+  currentEffect = 0;
+  timer = 0;
 
   //server
   const char* ssid = "*HotSpot*";
@@ -53,90 +63,25 @@ void setup() {
 
 void loop() {
   client = server.available();
-  if (!client) {
-    return;
+  if (client) {
+    while (!client.available()) {
+      switchEffect();
+    }
+    request = ReadIncomingRequest();
+    currentEffect = parseRequest();
   }
-  while (!client.available()) {
-    delay(1);
-  }
+  switchEffect();
+}
 
-  //main code here
-  String request = ReadIncomingRequest();
-  request.remove(0, 5);
-  request.remove(request.length() - 9, 9);
-  Serial.println("Incoming request: " + request);
-  if (request == "clear") {
-    clearCube();
-  }
-  else if (request == "light") {
-    lightCube();
-  }
-  else if(request.length() == 1){
-    lightLayer(request.toInt());
-  }
-  else if(request.length() == 3){
-    setVoxel((int)request[0], (int)request[1], (int)request[2]);
-  }
+void switchEffect(){
+  switch (currentEffect) {
+    //dynamic effects
+    case TEST_LEDS: testLEDs(); break;
+    case TEST_LAYERS: testLayers(); break;
 
-  giveResponse();
+    //static effects
+    case LIGHT: lightCube(); currentEffect = STATIC_EFFECT; break;
+    case CLEAR: clearCube(); currentEffect = STATIC_EFFECT; break;
+  }
   renderCube();
-}
-
-void renderCube() {
-  for (uint8_t i = 0; i < 8; i++) {
-    digitalWrite(SS, LOW);
-    SPI.transfer(0x01 << i);
-    for (uint8_t j = 0; j < 8; j++) {
-      SPI.transfer(cube[i][j]);
-    }
-    digitalWrite(SS, HIGH);
-  }
-}
-
-void setVoxel(uint8_t x, uint8_t y, uint8_t z) {
-  cube[7 - y][7 - z] |= (0x01 << x);
-}
-
-void clearVoxel(uint8_t x, uint8_t y, uint8_t z) {
-  cube[7 - y][7 - z] ^= (0x01 << x);
-}
-
-bool getVoxel(uint8_t x, uint8_t y, uint8_t z) {
-  return (cube[7 - y][7 - z] & (0x01 << x)) == (0x01 << x);
-}
-
-void lightCube() {
-  for (uint8_t i = 0; i < 8; i++) {
-    for (uint8_t j = 0; j < 8; j++) {
-      cube[i][j] = 0xFF;
-    }
-  }
-}
-
-void lightLayer(int layer){
-  clearCube();
-  for (int i = 0; i < 8; i++){
-    for (int j = 0; j < 8; j++){
-      setVoxel(i, layer, j);
-    }
-  }
-}
-
-void clearCube() {
-  for (uint8_t i = 0; i < 8; i++) {
-    for (uint8_t j = 0; j < 8; j++) {
-      cube[i][j] = 0;
-    }
-  }
-}
-
-void giveResponse() {
-  String html = "Ok";
-  client.println("HTTP/1.1 200 OK");
-  client.println("Content-Type: text/html");
-  client.println("");
-  client.println(html);
-  client.stop();
-  delay(1);
-  client.flush();
 }

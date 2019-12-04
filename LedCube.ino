@@ -1,6 +1,13 @@
 #include <SPI.h>
 #include <WiFi.h>
 
+const uint8_t POSITION_X = 0;
+const uint8_t POSITION_Z = 2;
+const uint8_t POSITION_Y = 4;
+const uint8_t NEG_X = 1;
+const uint8_t NEG_Z = 3;
+const uint8_t NEG_Y = 5;
+
 //cube
 uint8_t cube[8][8];
 uint8_t i = 0, j = 0, k = 0;
@@ -8,20 +15,21 @@ bool loading = false;
 uint8_t currentEffect;
 uint16_t timer;
 
-//frame break times
-const int TEST_LEDS_TIME = 500;
-const int TEST_LAYERS_TIME = 500;
-
 const int TOTAL = 1;
 
 //static effects
-const int STATIC_EFFECT = -10;
-const int LIGHT = -1;
-const int CLEAR = -2;
+const int8_t STATIC_EFFECT = -10;
+const int8_t LIGHT = -1;
+const int8_t CLEAR = -2;
 //dynamic effects
-const int TEST_LEDS = -3;
-const int TEST_LAYERS = -4;
-//const int RAIN = 0;
+const int8_t TEST_LEDS = -3;
+const int8_t TEST_LAYERS = -4;
+const uint8_t RAIN = 0;
+
+//frame break times
+const uint16_t TEST_LEDS_TIME = 500;
+const uint16_t TEST_LAYERS_TIME = 500;
+const uint16_t RAIN_TIME = 200;
 
 //server
 String  ClientRequest;
@@ -73,7 +81,7 @@ void loop() {
   switchEffect();
 }
 
-void switchEffect(){
+void switchEffect() {
   switch (currentEffect) {
     //dynamic effects
     case TEST_LEDS: testLEDs(); break;

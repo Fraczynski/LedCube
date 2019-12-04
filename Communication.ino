@@ -14,6 +14,7 @@ int parseRequest() {
     Serial.println("Incoming request: " + request);
     currentEffect = request.toInt();
     request = "";
+    loading = true;
   }
   return currentEffect;
 }

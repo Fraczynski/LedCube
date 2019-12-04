@@ -8,8 +8,8 @@ void testLayers() {
   if (timer > TEST_LAYERS_TIME) {
     timer = 0;
     clearCube();
-    for (int i = 0; i < 8; i++) {
-      for (int k = 0; k < 8; k++) {
+    for (uint8_t i = 0; i < 8; i++) {
+      for (uint8_t k = 0; k < 8; k++) {
         setVoxel(i, j, k);
       }
     }

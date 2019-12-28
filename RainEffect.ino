@@ -2,9 +2,10 @@ void rain() {
   if (loading) {
     clearCube();
     loading = false;
+    currentEffectTime = timeScale * RAIN_TIME;
   }
   timer++;
-  if (timer > RAIN_TIME) {
+  if (timer > currentEffectTime) {
     timer = 0;
     shift(NEG_Y);
     uint8_t numDrops = random(0, 5);

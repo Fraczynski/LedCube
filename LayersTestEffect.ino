@@ -3,9 +3,10 @@ void testLayers() {
     clearCube();
     j = 0;
     loading = false;
+    currentEffectTime = timeScale * TEST_LAYERS_TIME;
   }
   timer++;
-  if (timer > TEST_LAYERS_TIME) {
+  if (timer > currentEffectTime) {
     timer = 0;
     clearCube();
     for (uint8_t i = 0; i < 8; i++) {
@@ -13,6 +14,9 @@ void testLayers() {
         setVoxel(i, j, k);
       }
     }
-    j = j < 8 ? j + 1 : 0;
+    j++;
+    if(j >= 8){
+      j = 0;
+    }
   }
 }

@@ -1,12 +1,29 @@
 void renderCube() {
-  for (uint8_t i = 0; i < 8; i++) {
-    digitalWrite(SS, LOW);
-    SPI.transfer(0x01 << i);
-    for (uint8_t j = 0; j < 8; j++) {
-      SPI.transfer(cube[i][j]);
-    }
-    digitalWrite(SS, HIGH);
+  layer++;
+  if (layer >= 8) {
+    layer = 0;
   }
+  digitalWrite(RCLK, LOW);
+
+  for (int i = 0; i < 8; i++) {
+    digitalWrite(SRCLK, LOW);
+    if (i != layer) {
+      digitalWrite(SER, 0);
+    }
+    else {
+      digitalWrite(SER, 1);
+    }
+    digitalWrite(SRCLK, HIGH);
+  }
+
+  for (int i = 0 ; i < 8; i++) {
+    for (int j = 0; j < 8; j++) {
+        digitalWrite(SRCLK, LOW);
+        digitalWrite(SER, BIT(cube[layer][j], i));
+        digitalWrite(SRCLK, HIGH);
+      }
+    }
+  digitalWrite(RCLK, HIGH);
 }
 
 void setVoxel(uint8_t x, uint8_t y, uint8_t z) {
@@ -36,17 +53,3 @@ void clearCube() {
     }
   }
 }
-
-////////////////////////////////////////////////
-//void effect() {
-//  if (loading) {
-//    clearCube();
-//    loading = false;
-//  }
-//  timer++;
-//  if (timer > EFFECT_TIME) {
-//    timer = 0;
-//    //effect algorithm here
-//
-//  }
-//}

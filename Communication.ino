@@ -6,17 +6,21 @@ String ReadIncomingRequest() {
   return ClientRequest;
 }
 
-int parseRequest() {
+void parseRequest() {
   if (request != NULL && request.length() > 0) {
-    sendResponse("OK");
     request.remove(0, 5);
     request.remove(request.length() - 9, 9);
     Serial.println("Incoming request: " + request);
-    currentEffect = request.toInt();
-    request = "";
-    loading = true;
+    sendResponse("!!!" + request + "!!!");
+    if(request.startsWith("time=")){
+      request.remove(0, 5);
+      timeScale = request.toDouble();
+    }
+    else{
+      currentEffect = request; 
+    }
+   loading = true; 
   }
-  return currentEffect;
 }
 
 void sendResponse(String response) {

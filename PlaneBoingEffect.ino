@@ -7,7 +7,7 @@ void planeBoing() {
     clearCube();
     uint8_t axis = random(0, 3);
     planePosition = random(0, 2) * 7;
-    setPlane(axis, planePosition);
+    setLayer(axis, planePosition);
     if (axis == X_axis) {
       if (planePosition == 0) {
         planeDirection = POSITION_X;
@@ -56,20 +56,6 @@ void planeBoing() {
           planeDirection--;
           looped = true;
         }
-      }
-    }
-  }
-}
-
-void setPlane(uint8_t axis, uint8_t i) {
-  for (uint8_t j = 0; j < 8; j++) {
-    for (uint8_t k = 0; k < 8; k++) {
-      if (axis == X_axis) {
-        setVoxel(i, j, k);
-      } else if (axis == Y_axis) {
-        setVoxel(j, i, k);
-      } else if (axis == Z_axis) {
-        setVoxel(j, k, i);
       }
     }
   }

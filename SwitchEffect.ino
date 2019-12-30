@@ -12,6 +12,7 @@ void switchEffect() {
   else if (currentEffect.equals(FIREWORKS)){    fireworks();  }
   else if (currentEffect.equals(STROBOSCOPE)){    stroboscope();  }
   else if (currentEffect.equals(ANTS)){    ants();  }
+  else if (currentEffect.equals(AXIS_UPDOWN_RANDSUSPEND)){    axisUpdownRandsuspend();  }
   else if (!currentEffect.equals(STATIC_EFFECT)){    currentEffect = LIGHT;  }
   renderCube();
 }

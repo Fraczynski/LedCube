@@ -14,7 +14,7 @@ uint8_t cube[8][8];
 uint8_t i = 0, j = 0, k = 0;
 bool loading = false;
 String currentEffect;
-uint16_t timer;
+int timer;
 uint64_t randomTimer;
 const uint8_t POSITION_X = 0;
 const uint8_t POSITION_Z = 2;
@@ -46,6 +46,7 @@ const String TEXT = "6";
 const String FIREWORKS = "7";
 const String STROBOSCOPE = "8";
 const String ANTS = "9";
+const String AXIS_UPDOWN_RANDSUSPEND = "10";
 
 //frame break times
 String textToDisplay = String("TEST");
@@ -63,6 +64,7 @@ const uint16_t CLOCK_TIME = 5000;
 const uint16_t FIREWORKS_TIME = 2000;
 const uint16_t STROBOSCOPE_TIME = 400;
 const uint16_t ANTS_TIME = 500;
+const uint16_t AXIS_UPDOWN_RANDSUSPEND_TIME = 2000;
 
 //server
 String  ClientRequest;
@@ -75,7 +77,7 @@ String request;
 
 void setup() {
   loading = true;
-  currentEffect = "7";
+  currentEffect = "10";
   timer = 0;
 
   //server

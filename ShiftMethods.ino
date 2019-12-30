@@ -50,3 +50,61 @@ void shift(uint8_t dir) {
     }
   }
 }
+
+void shiftVoxel(uint8_t dir, uint8_t x, uint8_t y, uint8_t z) {
+
+  if (dir == POSITION_X) {
+    if(getVoxel(cube, x, y, z)){
+      setVoxel(cube, x + 1, y, z);
+    }
+    else{
+      clearVoxel(cube, x + 1, y, z);
+    }
+    clearVoxel(cube, x, y, z);
+  }
+  else if (dir == NEG_X) {
+    if(getVoxel(cube, x, y, z)){
+      setVoxel(cube, x - 1, y, z);
+    }
+    else{
+      clearVoxel(cube, x - 1, y, z);
+    }
+    clearVoxel(cube, x, y, z);
+  }
+  else if (dir == POSITION_Y) {
+    if(getVoxel(cube, x, y, z)){
+      setVoxel(cube, x, y + 1, z);
+    }
+    else{
+      clearVoxel(cube, x, y + 1, z);
+    }
+    clearVoxel(cube, x, y, z);
+  }
+  else if (dir == NEG_Y) {
+    if(getVoxel(cube, x, y, z)){
+      setVoxel(cube, x, y - 1, z);
+    }
+    else{
+      clearVoxel(cube, x, y - 1, z);
+    }
+    clearVoxel(cube, x, y, z);
+  }
+  else if (dir == POSITION_Z) {
+    if(getVoxel(cube, x, y, z)){
+      setVoxel(cube, x, y, z + 1);
+    }
+    else{
+      clearVoxel(cube, x, y, z + 1);
+    }
+    clearVoxel(cube, x, y, z);
+  }
+  else if (dir == NEG_Z) {
+    if(getVoxel(cube, x, y, z)){
+      setVoxel(cube, x, y, z - 1);
+    }
+    else{
+      clearVoxel(cube, x, y, z - 1);
+    }
+    clearVoxel(cube, x, y, z);
+  }
+}

@@ -16,10 +16,14 @@ void parseRequest() {
       request.remove(0, 5);
       timeScale = request.toDouble();
     }
+    else if(request.startsWith("text=")){
+      request.remove(0, 5);
+      textToDisplay = String(request);
+    }
     else{
       currentEffect = request; 
     }
-   loading = true; 
+    loading = true; 
   }
 }
 

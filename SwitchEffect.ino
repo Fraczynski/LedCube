@@ -8,7 +8,7 @@ void switchEffect() {
   else if (currentEffect.equals(WOOP_WOOP)){    woopWoop();  }
   else if (currentEffect.equals(CUBE_JUMP)){    cubeJump();  }
   else if (currentEffect.equals(GLOW)){    glow();  }
-  else if (currentEffect.equals(TEXT)){    text("0123456789", 10);  }
+  else if (currentEffect.equals(TEXT)){    text(textToDisplay);  }
   else if (currentEffect.equals(FIREWORKS)){    fireworks();  }
   else if (currentEffect.equals(STROBOSCOPE)){    stroboscope();  }
   else if (currentEffect.equals(ANTS)){    ants();  }

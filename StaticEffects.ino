@@ -18,11 +18,11 @@ void renderCube() {
 
   for (int i = 0 ; i < 8; i++) {
     for (int j = 0; j < 8; j++) {
-        digitalWrite(SRCLK, LOW);
-        digitalWrite(SER, BIT(cube[layer][j], i));
-        digitalWrite(SRCLK, HIGH);
-      }
+      digitalWrite(SRCLK, LOW);
+      digitalWrite(SER, BIT(cube[layer][j], i));
+      digitalWrite(SRCLK, HIGH);
     }
+  }
   digitalWrite(RCLK, HIGH);
 }
 
@@ -38,6 +38,14 @@ bool getVoxel(uint8_t x, uint8_t y, uint8_t z) {
   return (cube[7 - y][7 - z] & (0x01 << x)) == (0x01 << x);
 }
 
+void copyCube(uint8_t fromCube[8][8], uint8_t toCube[8][8]) {
+  for (int j = 0; j < 8; j++) {
+    for (int k = 0; k < 8; k++) {
+      toCube[j][k] = fromCube[j][k];
+    }
+  }
+}
+
 void lightCube() {
   for (uint8_t i = 0; i < 8; i++) {
     for (uint8_t j = 0; j < 8; j++) {
@@ -50,6 +58,26 @@ void clearCube() {
   for (uint8_t i = 0; i < 8; i++) {
     for (uint8_t j = 0; j < 8; j++) {
       cube[i][j] = 0;
+    }
+  }
+}
+
+void setVoxel(uint8_t voxelsArray[8][8], uint8_t x, uint8_t y, uint8_t z) {
+  voxelsArray[7 - y][7 - z] |= (0x01 << x);
+}
+
+void clearVoxel(uint8_t voxelsArray[8][8], uint8_t x, uint8_t y, uint8_t z) {
+  voxelsArray[7 - y][7 - z] ^= (0x01 << x);
+}
+
+bool getVoxel(uint8_t voxelsArray[8][8], uint8_t x, uint8_t y, uint8_t z) {
+  return (voxelsArray[7 - y][7 - z] & (0x01 << x)) == (0x01 << x);
+}
+
+void clearCube(uint8_t voxelsArray[8][8]) {
+  for (uint8_t i = 0; i < 8; i++) {
+    for (uint8_t j = 0; j < 8; j++) {
+      voxelsArray[i][j] = 0;
     }
   }
 }

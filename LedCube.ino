@@ -77,7 +77,7 @@ String request;
 
 void setup() {
   loading = true;
-  currentEffect = "10";
+  currentEffect = "7";
   timer = 0;
 
   //server

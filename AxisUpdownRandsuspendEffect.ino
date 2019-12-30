@@ -2,17 +2,34 @@ uint8_t layerPosition = 0;
 uint8_t layerDirection = 0;
 uint8_t frameNumber = 0;
 uint8_t voxelsDestinations[8][8];
+uint8_t axis = 0;
 
 void axisUpdownRandsuspend() {
   if (loading) {
     clearCube();
-    setLayer(Z_axis, layerPosition);
-    if (layerPosition == 0) {
-      layerDirection = POSITION_Z;
-    } else {
-      layerDirection = NEG_Z;
+    axis = random(0, 3);
+    layerPosition = random(0, 2) * 7;
+    setLayer(axis, layerPosition);
+    if (axis == X_axis) {
+      if (layerPosition == 0) {
+        layerDirection = POSITION_X;
+      } else {
+        layerDirection = NEG_X;
+      }
+    } else if (axis == Y_axis) {
+      if (layerPosition == 0) {
+        layerDirection = POSITION_Y;
+      } else {
+        layerDirection = NEG_Y;
+      }
+    } else if (axis == Z_axis) {
+      if (layerPosition == 0) {
+        layerDirection = POSITION_Z;
+      } else {
+        layerDirection = NEG_Z;
+      }
     }
-    setLayer(Z_axis, layerPosition);
+    setLayer(axis, layerPosition);
     generateRandomVoxels();
     frameNumber = 0;
     timer = 0;
@@ -53,7 +70,7 @@ void axisUpdownRandsuspend() {
       timer = - 5 * currentEffectTime;
     }
     else if (frameNumber == 16) {
-      layerDirection = layerDirection == 2 ? 3 : 2;
+      layerDirection = layerDirection % 2 == 0 ? layerDirection + 1 : layerDirection - 1;
       generateRandomVoxels();
       timer = - 5 * currentEffectTime;
     }
@@ -72,7 +89,13 @@ void generateLayerDestinations() {
 
   for (uint8_t j = 0; j < 8; j++) {
     for (uint8_t k = 0; k < 8; k++) {
-      setVoxel(voxelsDestinations, j, k, layerPosition);
+      if (axis == X_axis) {
+        setVoxel(voxelsDestinations, layerPosition, j, k);
+      } else if (axis == Y_axis) {
+        setVoxel(voxelsDestinations, j, layerPosition, k);
+      } else if (axis == Z_axis) {
+        setVoxel(voxelsDestinations, j, k, layerPosition);
+      }
     }
   }
 }
@@ -89,25 +112,37 @@ void generateRandomVoxels() {
       temporaryArray[i][j] = 0x01 << random(0, 8);
     }
   }
-  for (int i = 0; i < 8; i++) {
-    for (int j = 0; j < 8; j++) {
-      for (int k = 0; k < 8; k++) {
-        if (BIT(temporaryArray[j][k], i)) {
-          setVoxel(voxelsDestinations, k, j, i);
+  if (axis == X_axis) {
+    for (int i = 0; i < 8; i++) {
+      for (int j = 0; j < 8; j++) {
+        for (int k = 0; k < 8; k++) {
+          if (BIT(temporaryArray[j][k], i)) {
+            setVoxel(voxelsDestinations, i, j, k);
+          }
         }
       }
     }
   }
-}
-
-void setVoxel(uint8_t voxelsArray[8][8], uint8_t x, uint8_t y, uint8_t z) {
-  voxelsArray[7 - y][7 - z] |= (0x01 << x);
-}
-
-void clearVoxel(uint8_t voxelsArray[8][8], uint8_t x, uint8_t y, uint8_t z) {
-  voxelsArray[7 - y][7 - z] ^= (0x01 << x);
-}
-
-bool getVoxel(uint8_t voxelsArray[8][8], uint8_t x, uint8_t y, uint8_t z) {
-  return (voxelsArray[7 - y][7 - z] & (0x01 << x)) == (0x01 << x);
+  if (axis == Y_axis) {
+    for (int i = 0; i < 8; i++) {
+      for (int j = 0; j < 8; j++) {
+        for (int k = 0; k < 8; k++) {
+          if (BIT(temporaryArray[j][k], i)) {
+            setVoxel(voxelsDestinations, j, i, k);
+          }
+        }
+      }
+    }
+  }
+  if (axis == Z_axis) {
+    for (int i = 0; i < 8; i++) {
+      for (int j = 0; j < 8; j++) {
+        for (int k = 0; k < 8; k++) {
+          if (BIT(temporaryArray[j][k], i)) {
+            setVoxel(voxelsDestinations, k, j, i);
+          }
+        }
+      }
+    }
+  }
 }

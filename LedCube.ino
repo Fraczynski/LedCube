@@ -47,6 +47,7 @@ const String FIREWORKS = "7";
 const String STROBOSCOPE = "8";
 const String ANTS = "9";
 const String AXIS_UPDOWN_RANDSUSPEND = "10";
+const String SHOW_CUBE = "11";
 
 //frame break times
 String textToDisplay = String("TEST");
@@ -65,10 +66,11 @@ const uint16_t FIREWORKS_TIME = 2000;
 const uint16_t STROBOSCOPE_TIME = 400;
 const uint16_t ANTS_TIME = 500;
 const uint16_t AXIS_UPDOWN_RANDSUSPEND_TIME = 2000;
+const uint16_t SHOW_CUBE_TIME = 2000;
 
 //server
 String  ClientRequest;
-IPAddress  staticIP642_10(192, 168, 1, 10);
+IPAddress  staticIP642_10(192, 168, 1, 150);
 IPAddress gateway642_10(192, 168, 1, 1);
 IPAddress subnet642_10(255, 255, 255, 0);
 WiFiServer server(80);
@@ -77,7 +79,7 @@ String request;
 
 void setup() {
   loading = true;
-  currentEffect = "7";
+  currentEffect = "0";
   timer = 0;
 
   //server

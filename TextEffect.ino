@@ -41,19 +41,19 @@ uint8_t characters[36][8] = {
   {0x7E, 0x7E, 0x06, 0x0E, 0x38, 0x60, 0x7E, 0x7E}, //Z
 };
 
-void text(String string) {
+void text() {
   if (loading) {
     clearCube();
     charPosition = -1;
     charCounter = 0;
     loading = false;
     currentEffectTime = timeScale * TEXT_TIME;
+    len = textToDisplay.length();
+    textToDisplay.toUpperCase();
+    textToDisplay = String(textToDisplay + " ");
   }
   timer++;
   if (timer > currentEffectTime) {
-    len = string.length();
-    string.toUpperCase();
-    string = String(string + " ");
     timer = 0;
 
     shift(POSITION_X);
@@ -70,11 +70,11 @@ void text(String string) {
     if (charPosition == 0) {
       for (uint8_t i = 0; i < 8; i++) {
         for (uint8_t j = 0; j < 8; j++) {
-          if(string[charCounter] >= '0' && string[charCounter] <= '9'){
-            cube[i][j] = BIT(characters[string[charCounter] - '0'][i], j);
+          if(textToDisplay[charCounter] >= '0' && textToDisplay[charCounter] <= '9'){
+            cube[i][j] = BIT(characters[textToDisplay[charCounter] - '0'][i], j);
           }
-          else if(string[charCounter] >= 'A' && string[charCounter] <= 'Z'){
-            cube[i][j] = BIT(characters[string[charCounter] - 'A' + 10][i], j);
+          else if(textToDisplay[charCounter] >= 'A' && textToDisplay[charCounter] <= 'Z'){
+            cube[i][j] = BIT(characters[textToDisplay[charCounter] - 'A' + 10][i], j);
           }
         }
       }

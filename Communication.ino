@@ -1,8 +1,5 @@
 String ReadIncomingRequest() {
   ClientRequest = (client.readStringUntil('\r'));
-  if ((ClientRequest.indexOf("HTTP/1.1") > 0) && (ClientRequest.indexOf("/favicon.ico") < 0)) {
-    //myresultat = ClientRequest;   //???
-  }
   return ClientRequest;
 }
 
@@ -14,7 +11,7 @@ void parseRequest() {
     sendResponse("!!!" + request + "!!!");
     if(request.startsWith("time=")){
       request.remove(0, 5);
-      timeScale = request.toDouble();
+      timeScale = 4 - request.toDouble();
     }
     else if(request.startsWith("text=")){
       request.remove(0, 5);

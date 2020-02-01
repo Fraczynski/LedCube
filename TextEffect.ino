@@ -49,11 +49,23 @@ void text() {
     loading = false;
     currentEffectOriginalTime = TEXT_TIME;
     currentEffectTime = currentEffectOriginalTime * timeScale;
-    Serial.println(textToDisplay);
     textToDisplay.toUpperCase();
-    Serial.println(textToDisplay);
     textToDisplay = String(textToDisplay + " ");
-    Serial.println(textToDisplay);
+
+    Serial.print(textToDisplay);
+    char character;
+    for (uint8_t i = 0; i < textToDisplay.length(); i++) {
+      textToDisplay.replace("%C4%85", "A");
+      textToDisplay.replace("%C4%87", "C");
+      textToDisplay.replace("%C4%99", "E");
+      textToDisplay.replace("%C5%82", "L");
+      textToDisplay.replace("%C5%84", "N");
+      textToDisplay.replace("%C3%B3", "O");
+      textToDisplay.replace("%C5%9B", "S");
+      textToDisplay.replace("%C5%BA", "Z");
+      textToDisplay.replace("%C5%BC", "Z");
+    }
+    Serial.print(textToDisplay);
   }
   timer++;
   if (timer > currentEffectTime) {

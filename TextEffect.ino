@@ -1,8 +1,7 @@
 uint8_t charCounter = 0;
 uint8_t charPosition = 0;
-uint8_t len = 0;
 
-uint8_t characters[36][8] = {
+uint8_t characters[37][8] = {
   {0x3C, 0x7E, 0x66, 0x6E, 0x76, 0x66, 0x7E, 0x3C}, //0
   {0x18, 0x38, 0x38, 0x18, 0x18, 0x18, 0x18, 0x7E}, //1
   {0x3C, 0x7E, 0x46, 0x0C, 0x30, 0x62, 0x7E, 0x3C}, //2
@@ -39,6 +38,7 @@ uint8_t characters[36][8] = {
   {0xC3, 0xC3, 0xE7, 0x7E, 0x3C, 0xE7, 0xC3, 0xC3}, //X
   {0x66, 0x66, 0x66, 0x66, 0x3C, 0x18, 0x18, 0x18}, //Y
   {0x7E, 0x7E, 0x06, 0x0E, 0x38, 0x60, 0x7E, 0x7E}, //Z
+  {0x00, 0x00, 0x00, 0x7E, 0x7E, 0x00, 0x00, 0x00}  //-
 };
 
 void text() {
@@ -47,10 +47,13 @@ void text() {
     charPosition = -1;
     charCounter = 0;
     loading = false;
-    currentEffectTime = timeScale * TEXT_TIME;
-    len = textToDisplay.length();
+    currentEffectOriginalTime = TEXT_TIME;
+    currentEffectTime = currentEffectOriginalTime * timeScale;
+    Serial.println(textToDisplay);
     textToDisplay.toUpperCase();
+    Serial.println(textToDisplay);
     textToDisplay = String(textToDisplay + " ");
+    Serial.println(textToDisplay);
   }
   timer++;
   if (timer > currentEffectTime) {
@@ -61,7 +64,7 @@ void text() {
 
     if (charPosition == 8) {
       charCounter++;
-      if (charCounter > len - 1) {
+      if (charCounter > textToDisplay.length() - 1) {
         charCounter = 0;
       }
       charPosition = 0;
@@ -75,6 +78,9 @@ void text() {
           }
           else if(textToDisplay[charCounter] >= 'A' && textToDisplay[charCounter] <= 'Z'){
             cube[i][j] = BIT(characters[textToDisplay[charCounter] - 'A' + 10][i], j);
+          }
+          else if(textToDisplay[charCounter] == '-'){
+            cube[i][j] = BIT(characters[36][i], j);
           }
         }
       }

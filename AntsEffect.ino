@@ -2,7 +2,8 @@ void ants() {
   if (loading) {
     clearCube();
     loading = false;
-    currentEffectTime = timeScale * ANTS_TIME;
+    currentEffectOriginalTime = ANTS_TIME;
+    currentEffectTime = currentEffectOriginalTime * timeScale;
   }
   timer++;
   if (timer > currentEffectTime) {

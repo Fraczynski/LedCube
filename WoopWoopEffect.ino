@@ -4,7 +4,8 @@ void woopWoop() {
     cubeSize = 2;
     cubeExpanding = true;
     loading = false;
-    currentEffectTime = timeScale * WOOP_WOOP_TIME;
+    currentEffectOriginalTime = WOOP_WOOP_TIME;
+    currentEffectTime = currentEffectOriginalTime * timeScale;
   }
 
   timer++;

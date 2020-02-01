@@ -7,7 +7,8 @@ void glow() {
     glowCount = 0;
     glowing = true;
     loading = false;
-    currentEffectTime = timeScale * GLOW_TIME;
+    currentEffectOriginalTime = GLOW_TIME;
+    currentEffectTime = currentEffectOriginalTime * timeScale;
   }
 
   timer++;

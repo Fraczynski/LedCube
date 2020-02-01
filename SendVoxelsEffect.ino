@@ -9,7 +9,8 @@ void sendVoxels() {
       }
     }
     loading = false;
-    currentEffectTime = timeScale * SEND_VOXELS_TIME;
+    currentEffectOriginalTime = SEND_VOXELS_TIME;
+    currentEffectTime = currentEffectOriginalTime * timeScale;
   }
 
   timer++;

@@ -4,7 +4,8 @@ void showCube() {
   if (loading) {
     clearCube();
     loading = false;
-    currentEffectTime = timeScale * SHOW_CUBE_TIME;
+    currentEffectOriginalTime = SHOW_CUBE_TIME;
+    currentEffectTime = currentEffectOriginalTime * timeScale;
     frame = 0;
     cubeSize = 8;
     cubeExpanding = false;

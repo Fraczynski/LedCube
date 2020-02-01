@@ -47,10 +47,13 @@ void copyCube(uint8_t fromCube[8][8], uint8_t toCube[8][8]) {
 }
 
 void lightCube() {
-  for (uint8_t i = 0; i < 8; i++) {
-    for (uint8_t j = 0; j < 8; j++) {
-      cube[i][j] = 0xFF;
+  if(loading){
+    for (uint8_t i = 0; i < 8; i++) {
+      for (uint8_t j = 0; j < 8; j++) {
+        cube[i][j] = 0xFF;
+      }
     }
+    loading = false;
   }
 }
 

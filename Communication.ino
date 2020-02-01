@@ -8,19 +8,24 @@ void parseRequest() {
     request.remove(0, 5);
     request.remove(request.length() - 9, 9);
     Serial.println("Incoming request: " + request);
-    sendResponse("!!!" + request + "!!!");
+    sendResponse(request);
     if(request.startsWith("time=")){
       request.remove(0, 5);
       timeScale = 4 - request.toDouble();
+      currentEffectTime = currentEffectOriginalTime * timeScale;
     }
     else if(request.startsWith("text=")){
       request.remove(0, 5);
-      textToDisplay = String(request);
+      textToDisplay= String(request);
+      textToDisplay.replace("%20", " ");
+      loading = true; 
+      timeScale = 1;
     }
     else{
-      currentEffect = request; 
+      currentEffect = request;
+      loading = true;  
+      timeScale = 1;
     }
-    loading = true; 
   }
 }
 

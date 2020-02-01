@@ -34,7 +34,8 @@ void axisUpdownRandsuspend() {
     frameNumber = 0;
     timer = 0;
     loading = false;
-    currentEffectTime = timeScale * AXIS_UPDOWN_RANDSUSPEND_TIME;
+    currentEffectOriginalTime = AXIS_UPDOWN_RANDSUSPEND_TIME;
+    currentEffectTime = currentEffectOriginalTime * timeScale;
   }
   timer++;
   if (timer > currentEffectTime) {

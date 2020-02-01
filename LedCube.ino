@@ -13,7 +13,6 @@ uint8_t layer = 0;
 uint8_t cube[8][8];
 uint8_t i = 0, j = 0, k = 0;
 bool loading = false;
-String currentEffect;
 int timer;
 uint64_t randomTimer;
 const uint8_t POSITION_X = 0;
@@ -29,13 +28,14 @@ uint8_t X_axis = 0;
 uint8_t Y_axis = 1;
 uint8_t Z_axis = 2;
 
+String currentEffect;
 //static effects
-const String STATIC_EFFECT = "NULL";
+//const String STATIC_EFFECT = "NULL";
 const String LIGHT = "-1";
 const String CLEAR = "-2";
+const String STATIC_EFFECT = "-10";
 
 //dynamic effects
-const String TEST_LAYERS = "-4";
 const String RAIN = "0";
 const String PLANE_BOING = "1";
 const String SEND_VOXELS = "2";
@@ -53,7 +53,7 @@ const String SHOW_CUBE = "11";
 String textToDisplay = String("TEST");
 double timeScale = 1.0;
 uint16_t currentEffectTime = 0;
-const uint16_t TEST_LAYERS_TIME = 5000;
+uint16_t currentEffectOriginalTime = 0;
 const uint16_t RAIN_TIME = 2000;
 const uint16_t PLANE_BOING_TIME = 3000;
 const uint16_t SEND_VOXELS_TIME = 1400;

@@ -14,7 +14,8 @@ void fireworks() {
     exploded = false;
     gravitationTime = 0;
     explodeTime = 0;
-    currentEffectTime = timeScale * FIREWORKS_TIME;
+    currentEffectOriginalTime = FIREWORKS_TIME;
+    currentEffectTime = currentEffectOriginalTime * timeScale;
   }
 
   timer++;

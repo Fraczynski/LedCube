@@ -30,7 +30,8 @@ void planeBoing() {
     timer = 0;
     looped = false;
     loading = false;
-    currentEffectTime = timeScale * PLANE_BOING_TIME;
+    currentEffectOriginalTime = PLANE_BOING_TIME;
+    currentEffectTime = currentEffectOriginalTime * timeScale;
   }
 
   timer++;

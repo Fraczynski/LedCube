@@ -2,7 +2,8 @@ void stroboscope() {
   if (loading) {
     clearCube();
     loading = false;
-    currentEffectTime = timeScale * STROBOSCOPE_TIME;
+    currentEffectOriginalTime = STROBOSCOPE_TIME;
+    currentEffectTime = currentEffectOriginalTime * timeScale;
   }
   timer++;
   if (timer > currentEffectTime) {

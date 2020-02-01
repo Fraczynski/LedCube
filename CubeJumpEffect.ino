@@ -13,7 +13,8 @@ void cubeJump() {
     cubeSize = 8;
     cubeExpanding = false;
     loading = false;
-    currentEffectTime = timeScale * CUBE_JUMP_TIME;
+    currentEffectOriginalTime = CUBE_JUMP_TIME;
+    currentEffectTime = currentEffectOriginalTime * timeScale;
   }
 
   timer++;

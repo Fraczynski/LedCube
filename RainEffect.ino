@@ -2,7 +2,8 @@ void rain() {
   if (loading) {
     clearCube();
     loading = false;
-    currentEffectTime = timeScale * RAIN_TIME;
+    currentEffectOriginalTime = RAIN_TIME;
+    currentEffectTime = currentEffectOriginalTime * timeScale;
   }
   timer++;
   if (timer > currentEffectTime) {

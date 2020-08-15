@@ -1,6 +1,6 @@
 #include <WiFi.h>
 
-#define BIT(n,i) (n>>i&1)
+#define BIT_CHECK(n, i) (n >> i & 1)
 
 //pins configuration
 const uint8_t pinsNumber = 64;
@@ -69,34 +69,36 @@ const uint16_t AXIS_UPDOWN_RANDSUSPEND_TIME = 2000;
 const uint16_t SHOW_CUBE_TIME = 2000;
 
 //server
-String  ClientRequest;
-IPAddress  staticIP642_10(192, 168, 1, 150);
-IPAddress gateway642_10(192, 168, 1, 1);
-IPAddress subnet642_10(255, 255, 255, 0);
+String ClientRequest;
+uint8_t staticIP = 170;
 WiFiServer server(80);
 WiFiClient client;
 String request;
 
-void setup() {
+void setup()
+{
   loading = true;
   currentEffect = "0";
   timer = 0;
 
   //server
-  const char* ssid = "*HotSpot*";
-  const char* password = "792756125";
+  char ssid[] = "*HotSpot*";
+  const char *password = "792756125";
   ClientRequest = "";
   Serial.begin(115200);
   WiFi.disconnect();
   delay(3000);
   Serial.println("START");
   WiFi.begin(ssid, password);
-  while (!(WiFi.status() == WL_CONNECTED)) {
+  while (!(WiFi.status() == WL_CONNECTED))
+  {
     delay(300);
     Serial.print("..");
   }
   Serial.println("Connected");
-  WiFi.config(staticIP642_10, gateway642_10, subnet642_10);
+  IPAddress ip = WiFi.localIP();
+  ip[3] = staticIP;
+  WiFi.config(ip, WiFi.gatewayIP(), WiFi.subnetMask());
   Serial.print("IP:");
   Serial.println((WiFi.localIP()));
   server.begin();
@@ -106,12 +108,16 @@ void setup() {
   pinMode(SRCLK, OUTPUT);
 }
 
-void loop() {
+void loop()
+{
   client = server.available();
 
-  if (client) { 
-    while (client.connected()) {
-      if (client.available()) {
+  if (client)
+  {
+    while (client.connected())
+    {
+      if (client.available())
+      {
         request = ReadIncomingRequest();
         parseRequest();
       }
